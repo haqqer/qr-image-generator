@@ -14,14 +14,14 @@ app.use(express.json());
 
 app.get("/qr", async (req, res, next) => {
   try {
-    const { size, data } = req.query;
+    const { size, data, margin } = req.query;
     const sizeSplit = size.split("x");
     const qrStream = new PassThrough();
-    const result = await QRCode.toFileStream(qrStream, data, {
+    const result = await QRCode.toFileStream(qrStream, data || "HELLO WORLD", {
       type: "png",
-      margin: 1,
-      height: sizeSplit[0],
-      width: sizeSplit[1],
+      margin: margin || 1,
+      height: sizeSplit[0] || 200,
+      width: sizeSplit[1] || 200,
       errorCorrectionLevel: "H",
     });
 
